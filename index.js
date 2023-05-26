@@ -1,8 +1,8 @@
 const inquirer = require("inquirer");
-const fs = require("fs/promises");
-const Triangle = require("./lib/Triangle");
-const Square = require("./lib/Square");
-const Circle = require("./lib/Circle");
+const fs = require("fs");
+const Triangle = require("./lib/triangle");
+const Square = require("./lib/square");
+const Circle = require("./lib/circle");
 const SVG = require("./lib/Svg")
 
 inquirer
@@ -29,8 +29,7 @@ inquirer
       message: "What shape color would you like?",
     },
   ])
-  .then(async (svg) => {
-    //if user responds to prompts, enter response in to render method based on the class
+  .then( (svg) => {
     let newShape;
     if (svg.shape == "Circle") {
       newShape = new Circle(
@@ -57,8 +56,7 @@ inquirer
     try {
       console.log(newShape)
       var svgLogo = new SVG(newShape)
-      console.log(svgLogo)
-      await fs.writeFile("logo.svg", svgLogo.renderSVG());
+      fs.writeFileSync(`./examples/${svg.shape}_logo.svg`, svgLogo.renderSVG());
       console.log("Generated logo.svg");
     } catch (error) {
       console.log(error);
